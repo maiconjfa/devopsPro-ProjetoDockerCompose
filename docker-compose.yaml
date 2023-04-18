@@ -1,0 +1,28 @@
+version: '3.8'
+
+networks:
+  wordpress_net:
+    driver: bridge
+
+services:
+  wp-db:
+    image: mysql:8.0.30
+    networks:
+      - wordpress_net
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpwd
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpresspwd
+      MYSQL_DATABSE: wordpress
+
+  wp-web:
+    image: wordpress
+    networks:
+      - wordpress_net
+    ports:
+      - 8080:80   
+    environment:
+      WORDPRESS_DB_HOST: wp-db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpresspwd
+      WORDPRESS_DB_NAME: wordpress
